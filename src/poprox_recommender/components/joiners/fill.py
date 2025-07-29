@@ -1,3 +1,5 @@
+import random
+import time
 from itertools import zip_longest
 
 from lenskit.pipeline import Component
@@ -81,3 +83,39 @@ class FillRecs(Component):
 
         # Return the resulting RecommendationList, limiting the size to num_slots
         return RecommendationList(articles=articles[: self.config.num_slots], extras=extras[: self.config.num_slots])
+
+
+class Babooner(Component):
+    config: FillConfig
+
+    def __call__(
+        self,
+        recs: RecommendationList,
+    ) -> RecommendationList:
+        articles = recs.articles
+        extras = recs.extras
+
+        if not extras:
+            extras = [{} for _ in articles]
+
+        for article in articles:
+            article.subhead = "and then Baboons attacked"
+
+        # Return the resulting RecommendationList, limiting the size to num_slots
+        return RecommendationList(articles=articles[: self.config.num_slots], extras=extras[: self.config.num_slots])
+
+
+class SlowConfig(BaseModel):
+    time_min: int
+    time_max: int
+
+
+class Slow(Component):
+    config: FillConfig
+
+    def __call__(
+        self,
+        recs: RecommendationList,
+    ) -> RecommendationList:
+        time.sleep(random.rand_range(self.config.time_min, self.config.time_max))
+        return recs

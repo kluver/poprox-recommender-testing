@@ -1,3 +1,4 @@
+import numpy as np
 import torch
 from lenskit.pipeline import Component
 
@@ -22,4 +23,14 @@ class ArticleScorer(Component):
         else:
             with_scores.scores = None
 
+        return with_scores
+
+
+class RandomArticleScorer(Component):
+    config: None
+
+    @torch_inference
+    def __call__(self, candidate_articles: CandidateSet) -> CandidateSet:
+        with_scores = candidate_articles.model_copy()
+        with_scores.scores = np.random.normal(size=len(with_scores.articles))
         return with_scores

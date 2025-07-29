@@ -1,6 +1,6 @@
 useDotenv: true
 
-service: poprox-default-recommender
+service: poprox-kluver-recommender
 frameworkVersion: "3"
 
 provider:
@@ -41,7 +41,7 @@ package:
 functions:
   generateRecommendations:
     image:
-      name: poprox-recommender
+      name: poprox-recommender-kluver
     memorySize: 4096
     ephemeralStorageSize: 2048
     events:
