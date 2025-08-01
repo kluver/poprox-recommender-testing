@@ -45,9 +45,22 @@ functions:
     memorySize: 4096
     ephemeralStorageSize: 2048
     events:
-      - httpApi:
+      - http:
           path: /warmup
           method: get
-      - httpApi:
+      - http:
           path: /
           method: post
+
+# What you need to do:
+#  1. Go into AWS console
+#  2. Go to the "quotas and limits" tool
+#  3. Go to the api gateway limits
+#  4. Find the maximum timeout in milliseconds, it should be 30000, bump it up.
+#    * The more you bump it, the less likely an automtic approval is. Also, check with the team, it doesn't need to be bigger than the platform timeout.
+#  5. Now go to serverless.yml and change all the `httpapi` to `http` as seen above in the event section
+#  6. Now deploy it
+#  7. Now go in, find the POST / endpoint in the api gateway tool.
+#  8. Edit the integration request for this endpoint to have a larger timeout.
+#  9. Edit the API as a whole to be a region API not an edge API.
+#  10 . Redeploy, wait, and test.

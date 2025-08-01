@@ -111,11 +111,11 @@ class SlowConfig(BaseModel):
 
 
 class Slow(Component):
-    config: FillConfig
+    config: SlowConfig
 
     def __call__(
         self,
         recs: RecommendationList,
     ) -> RecommendationList:
-        time.sleep(random.rand_range(self.config.time_min, self.config.time_max))
+        time.sleep(random.randint(self.config.time_min, self.config.time_max))
         return recs
