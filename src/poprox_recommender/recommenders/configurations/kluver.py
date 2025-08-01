@@ -18,5 +18,5 @@ def configure(builder: PipelineBuilder, num_slots: int, device: str):
     n_scorer = builder.add_component("scorer", RandomArticleScorer, candidate_articles=i_candidates)
     n_ranker = builder.add_component("ranker", TopkRanker, {"num_slots": num_slots}, candidate_articles=n_scorer)
 
-    n_rec = builder.add_component("recommender_raw", Babooner, {"num_slots": num_slots}, recs=n_ranker)
-    builder.add_component("recommender", Slow, {"time_min": 0, "time_max": 60}, recs=n_rec)
+    n_rec = builder.add_component("recommender", Babooner, {"num_slots": num_slots}, recs=n_ranker)
+    builder.add_component("recommender", Slow, {"time_min": 30, "time_max": 40}, recs=n_rec)
